@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+  <kcfgfile name=""/>
+  <group name="General">
+    <entry name="refreshInterval" type="Int">
+      <label>Refresh interval in milliseconds</label>
+      <default>1000</default>
+    </entry>
+    <entry name="elevatedStart" type="Int">
+      <label>Percentage at which the elevated (amber) zone starts</label>
+      <default>60</default>
+    </entry>
+    <entry name="redlineStart" type="Int">
+      <label>Percentage at which the redline (red) zone starts</label>
+      <default>80</default>
+    </entry>
+    <entry name="smoothingDuration" type="Int">
+      <label>Needle smoothing animation duration in milliseconds</label>
+      <default>800</default>
+    </entry>
+    <entry name="needleColor" type="String">
+      <label>Color of the gauge needle</label>
+      <default>#e8443a</default>
+    </entry>
+    <entry name="elevatedColor" type="String">
+      <label>Color of the elevated (amber) zone</label>
+      <default>#d8a03c</default>
+    </entry>
+    <entry name="redlineColor" type="String">
+      <label>Color of the redline (red) zone</label>
+      <default>#d8352c</default>
+    </entry>
+    <entry name="faceColor" type="String">
+      <label>Color of the gauge face</label>
+      <default>#111318</default>
+    </entry>
+    <entry name="textColor" type="String">
+      <label>Color of text and tick marks</label>
+      <default>#e8eaed</default>
+    </entry>
+  </group>
+</kcfg>
