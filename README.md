@@ -51,4 +51,5 @@ Right-click the widget → **Configure RAM Speedometer…** to adjust:
 | `elevatedColor` | `#d8a03c` | Color of the elevated (amber) zone arc. |
 | `redlineColor` | `#d8352c` | Color of the redline (red) zone arc. |
 | `faceColor` | `#111318` | Color of the gauge face. |
+| `faceOpacity` | `100 %` | Opacity of the background face dial (0% = fully transparent). |
 | `textColor` | `#e8eaed` | Color of text and tick marks. |

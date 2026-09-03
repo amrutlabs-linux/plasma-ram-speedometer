@@ -15,6 +15,7 @@ KCM.SimpleKCM {
     property alias cfg_elevatedColor: elevatedColorButton.color
     property alias cfg_redlineColor: redlineColorButton.color
     property alias cfg_faceColor: faceColorButton.color
+    property alias cfg_faceOpacity: faceOpacitySpinBox.value
     property alias cfg_textColor: textColorButton.color
 
     Kirigami.FormLayout {
@@ -59,7 +60,7 @@ KCM.SimpleKCM {
         }
 
         Kirigami.Separator {
-            Kirigami.FormData.label: i18n("Colors")
+            Kirigami.FormData.label: i18n("Colors & Appearance")
             Kirigami.FormData.isSection: true
         }
 
@@ -85,6 +86,16 @@ KCM.SimpleKCM {
             id: faceColorButton
             Kirigami.FormData.label: i18n("Gauge face:")
             showAlphaChannel: false
+        }
+
+        QQC2.SpinBox {
+            id: faceOpacitySpinBox
+            Kirigami.FormData.label: i18n("Background opacity:")
+            from: 0
+            to: 100
+            stepSize: 5
+            textFromValue: function(value) { return i18n("%1%", value) }
+            valueFromText: function(text) { return parseInt(text) }
         }
 
         KQuickControls.ColorButton {

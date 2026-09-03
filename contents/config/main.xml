@@ -37,6 +37,10 @@
       <label>Color of the gauge face</label>
       <default>#111318</default>
     </entry>
+    <entry name="faceOpacity" type="Int">
+      <label>Opacity of the gauge background face (0-100%)</label>
+      <default>100</default>
+    </entry>
     <entry name="textColor" type="String">
       <label>Color of text and tick marks</label>
       <default>#e8eaed</default>

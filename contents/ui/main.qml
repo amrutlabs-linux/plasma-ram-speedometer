@@ -65,6 +65,7 @@ PlasmoidItem {
                 function onElevatedColorChanged() { face.requestPaint(); }
                 function onRedlineColorChanged() { face.requestPaint(); }
                 function onFaceColorChanged() { face.requestPaint(); }
+                function onFaceOpacityChanged() { face.requestPaint(); }
                 function onTextColorChanged() { face.requestPaint(); }
             }
 
@@ -100,35 +101,59 @@ PlasmoidItem {
                 var faceR = R - bezelW;
                 var tickOuter = faceR * 0.94;
 
-                // Metallic outer bezel ring
-                var bezel = ctx.createRadialGradient(0, 0, faceR * 0.8, 0, 0, R);
-                bezel.addColorStop(0.0, "#2b2d33");
-                bezel.addColorStop(0.55, "#585c64");
-                bezel.addColorStop(0.78, "#767b84");
-                bezel.addColorStop(0.92, "#33363c");
-                bezel.addColorStop(1.0, "#16171a");
-                ctx.beginPath();
-                ctx.arc(0, 0, R, 0, Math.PI * 2, false);
-                ctx.fillStyle = bezel;
-                ctx.fill();
+                var faceAlpha = (Plasmoid.configuration.faceOpacity !== undefined ? Plasmoid.configuration.faceOpacity : 100) / 100.0;
 
-                // Dark radial-gradient instrument face, derived from faceColor
-                var faceColor = Plasmoid.configuration.faceColor;
-                var faceGrad = ctx.createRadialGradient(0, -faceR * 0.3, faceR * 0.1, 0, 0, faceR);
-                faceGrad.addColorStop(0.0, Qt.lighter(faceColor, 2.2));
-                faceGrad.addColorStop(0.55, Qt.lighter(faceColor, 1.3));
-                faceGrad.addColorStop(1.0, Qt.darker(faceColor, 1.5));
-                ctx.beginPath();
-                ctx.arc(0, 0, faceR, 0, Math.PI * 2, false);
-                ctx.fillStyle = faceGrad;
-                ctx.fill();
+                if (faceAlpha > 0) {
+                    ctx.save();
+                    ctx.globalAlpha = faceAlpha;
 
-                // Inner rim shadow to seat the face into the bezel
-                ctx.beginPath();
-                ctx.arc(0, 0, faceR, 0, Math.PI * 2, false);
-                ctx.lineWidth = Math.max(1, d * 0.006);
-                ctx.strokeStyle = "rgba(0, 0, 0, 0.55)";
-                ctx.stroke();
+                    // Metallic outer bezel ring
+                    var bezel = ctx.createRadialGradient(0, 0, faceR * 0.8, 0, 0, R);
+                    bezel.addColorStop(0.0, "#2b2d33");
+                    bezel.addColorStop(0.55, "#585c64");
+                    bezel.addColorStop(0.78, "#767b84");
+                    bezel.addColorStop(0.92, "#33363c");
+                    bezel.addColorStop(1.0, "#16171a");
+                    ctx.beginPath();
+                    ctx.arc(0, 0, R, 0, Math.PI * 2, false);
+                    ctx.fillStyle = bezel;
+                    ctx.fill();
+
+                    // Dark radial-gradient instrument face, derived from faceColor
+                    var faceColor = Plasmoid.configuration.faceColor;
+                    var faceGrad = ctx.createRadialGradient(0, -faceR * 0.3, faceR * 0.1, 0, 0, faceR);
+                    faceGrad.addColorStop(0.0, Qt.lighter(faceColor, 2.2));
+                    faceGrad.addColorStop(0.55, Qt.lighter(faceColor, 1.3));
+                    faceGrad.addColorStop(1.0, Qt.darker(faceColor, 1.5));
+                    ctx.beginPath();
+                    ctx.arc(0, 0, faceR, 0, Math.PI * 2, false);
+                    ctx.fillStyle = faceGrad;
+                    ctx.fill();
+
+                    // Inner rim shadow to seat the face into the bezel
+                    ctx.beginPath();
+                    ctx.arc(0, 0, faceR, 0, Math.PI * 2, false);
+                    ctx.lineWidth = Math.max(1, d * 0.006);
+                    ctx.strokeStyle = "rgba(0, 0, 0, 0.55)";
+                    ctx.stroke();
+
+                    // Subtle glass/reflection highlight near the top
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(0, 0, faceR, 0, Math.PI * 2, false);
+                    ctx.clip();
+                    ctx.rotate(deg(-18));
+                    var glass = ctx.createLinearGradient(0, -faceR, 0, -faceR * 0.1);
+                    glass.addColorStop(0.0, "rgba(255, 255, 255, 0.13)");
+                    glass.addColorStop(0.7, "rgba(255, 255, 255, 0.03)");
+                    glass.addColorStop(1.0, "rgba(255, 255, 255, 0.0)");
+                    ctx.beginPath();
+                    ctx.ellipse(0, -faceR * 0.52, faceR * 0.82, faceR * 0.42, 0, 0, Math.PI * 2, false);
+                    ctx.fillStyle = glass;
+                    ctx.fill();
+                    ctx.restore();
+                    ctx.restore();
+                }
 
                 // Zone color arcs (thin, near the tick ring)
                 var elevated = Math.max(0, Math.min(100, Plasmoid.configuration.elevatedStart));
@@ -171,22 +196,6 @@ PlasmoidItem {
                     ctx.fillStyle = n >= redline ? tint(redlineColor, 0.95) : tint(textColor, 0.85);
                     ctx.fillText(n.toString(), Math.cos(la) * labelR, Math.sin(la) * labelR);
                 }
-
-                // Subtle glass/reflection highlight near the top
-                ctx.save();
-                ctx.beginPath();
-                ctx.arc(0, 0, faceR, 0, Math.PI * 2, false);
-                ctx.clip();
-                ctx.rotate(deg(-18));
-                var glass = ctx.createLinearGradient(0, -faceR, 0, -faceR * 0.1);
-                glass.addColorStop(0.0, "rgba(255, 255, 255, 0.13)");
-                glass.addColorStop(0.7, "rgba(255, 255, 255, 0.03)");
-                glass.addColorStop(1.0, "rgba(255, 255, 255, 0.0)");
-                ctx.beginPath();
-                ctx.ellipse(0, -faceR * 0.52, faceR * 0.82, faceR * 0.42, 0, 0, Math.PI * 2, false);
-                ctx.fillStyle = glass;
-                ctx.fill();
-                ctx.restore();
             }
         }
 
