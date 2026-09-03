@@ -2,6 +2,10 @@
 
 An analog car-speedometer style KDE Plasma 6 widget that shows live RAM usage.
 
+<p align="center">
+  <img src="assets/ram-speedometer.png" alt="RAM Speedometer Preview" width="200">
+</p>
+
 The widget reads memory usage from the Plasma 6 `org.kde.ksysguard.sensors`
 API (sensors `memory/physical/used` and `memory/physical/total`, served by
 the `ksystemstats` daemon) — no root access or extra services required on a
@@ -15,6 +19,8 @@ standard Plasma 6 install.
 ## Install
 
 ```bash
+git clone https://github.com/amrutlabs-linux/plasma-ram-speedometer.git
+cd plasma-ram-speedometer
 ./install.sh
 ```
 
